@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/webwizardsusa/laravel-image-cache/compare/v0.1.0...v0.2.0) (2026-11-18)
+
+
+### Features
+
+* take Images by ULID in syncImageUsages() and referencedImages() ([7acf5ff](https://github.com/webwizardsusa/laravel-image-cache/commit/7acf5ff56957a2b8c8280fe1b0babcbfb7fd2dad))
+
 ## 0.1.0 (2026-11-18)
 
 
