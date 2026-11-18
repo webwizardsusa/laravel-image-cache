@@ -135,6 +135,16 @@ class Image extends Model
         return ImageCache::url($this, $style);
     }
 
+    /**
+     * The `srcset` of this Image in these styles, or the named set, as ImageCache::srcset() makes it.
+     *
+     * @param  array<string> | string  $set
+     */
+    public function srcset(array|string $set, ?int $maxWidth = null): string
+    {
+        return ImageCache::srcset($this, $set, $maxWidth);
+    }
+
     public function isOrphaned(): bool
     {
         return $this->orphaned_at !== null;

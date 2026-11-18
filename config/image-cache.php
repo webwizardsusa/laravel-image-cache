@@ -29,6 +29,12 @@ return [
     'styles' => [],
 
     /*
+     * Named sets of Image Styles for responsive images, such as 'hero' => ['card', 'banner'], used by srcset() and
+     * the image component in place of a list of styles. Every style in a set should keep the same aspect ratio.
+     */
+    'srcsets' => [],
+
+    /*
      * The disks new originals and Variants are written to, by visibility. Each Image and Variant records the disk it
      * was written to, so changing these only affects files written from then on. Private disks must be able to make
      * temporary URLs (`s3`, or `local` with `serve` turned on).

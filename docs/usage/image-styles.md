@@ -52,6 +52,26 @@ class BannerStyle extends ImageStyle
 - **`format()`** is `null` by default, which keeps the original's format.
 - **`quality()`** is `null` by default, which uses the encoder's default. Formats without a quality ignore it.
 
+## Declaring a size
+
+When a style's Variants always come out the same size, such as a crop or a scale to one width, declare it:
+
+```php
+public function width(): ?int
+{
+    return 300;
+}
+
+public function height(): ?int
+{
+    return 300;
+}
+```
+
+[Responsive images](responsive-images.md) use the declared width for a Variant that hasn't been generated yet, and
+the image component uses both for its `width` and `height`. Without `height()`, the Image's aspect ratio is kept.
+Leave them out when the size depends on the Image.
+
 ## Registering styles
 
 List the application's styles in `config/image-cache.php`:

@@ -235,6 +235,95 @@ class ImageCache
     }
 
     /**
+     * The styles of a srcset: a list of style names or classes, or the name of a set in `image-cache.srcsets`.
+     *
+     * @param  array<string|ImageStyle> | string  $set
+     * @return array<int, string>
+     *
+     * @throws InvalidArgumentException for a set name that isn't configured
+     * @throws UnknownStyleException for a style that isn't registered
+     */
+    public function srcsetStyles(array|string $set): array
+    {
+        if (is_string($set)) {
+            $styles = config("image-cache.srcsets.{$set}");
+
+            if (! is_array($styles)) {
+                throw new InvalidArgumentException("No srcset is configured with the name [{$set}] in image-cache.srcsets.");
+            }
+
+            $set = $styles;
+        }
+
+        return array_values(array_map(fn (string|ImageStyle $style): string => $this->style($style)::name(), $set));
+    }
+
+    /**
+     * The candidates of an Image's srcset, narrowest first: each style's URL and width. The width is the Variant's
+     * once it exists, otherwise the one the style declares; a style with neither is left out, as are widths over
+     * `$maxWidth` and widths an earlier style already has.
+     *
+     * @param  array<string|ImageStyle> | string  $set
+     * @return array<int, array{style: string, url: string, width: int}>
+     */
+    public function srcsetCandidates(Image $image, array|string $set, ?int $maxWidth = null): array
+    {
+        $candidates = [];
+
+        foreach ($this->srcsetStyles($set) as $style) {
+            $width = $image->variant($style)?->width ?? $this->style($style)->width();
+
+            if ($width === null || ($maxWidth !== null && $width > $maxWidth) || isset($candidates[$width])) {
+                continue;
+            }
+
+            $candidates[$width] = ['style' => $style, 'url' => $this->url($image, $style), 'width' => $width];
+        }
+
+        ksort($candidates);
+
+        return array_values($candidates);
+    }
+
+    /**
+     * An Image's `srcset` attribute, such as `…/thumb 150w, …/card 400w`, from srcsetCandidates().
+     *
+     * @param  array<string|ImageStyle> | string  $set
+     */
+    public function srcset(Image $image, array|string $set, ?int $maxWidth = null): string
+    {
+        return implode(', ', array_map(
+            static fn (array $candidate): string => "{$candidate['url']} {$candidate['width']}w",
+            $this->srcsetCandidates($image, $set, $maxWidth),
+        ));
+    }
+
+    /**
+     * The width and height of an Image's Variant in this style: the Variant's own once it exists, otherwise the
+     * style's declared width, with its declared height or the Image's aspect ratio. Null when the style declares no
+     * width and the Variant doesn't exist yet.
+     *
+     * @return array{width: int, height: int} | null
+     */
+    public function dimensions(Image $image, string|ImageStyle $style): ?array
+    {
+        $style = $this->style($style);
+        $variant = $image->variant($style::name());
+
+        if ($variant !== null) {
+            return ['width' => $variant->width, 'height' => $variant->height];
+        }
+
+        $width = $style->width();
+
+        if ($width === null || $image->width < 1) {
+            return null;
+        }
+
+        return ['width' => $width, 'height' => $style->height() ?? (int) round($width * $image->height / $image->width)];
+    }
+
+    /**
      * The URL its disk serves a Variant at: a temporary one when it's private.
      */
     public function variantUrl(Variant $variant, Visibility $visibility): string

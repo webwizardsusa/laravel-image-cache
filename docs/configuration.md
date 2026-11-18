@@ -12,6 +12,7 @@ description: Every key in config/image-cache.php.
 | `tables.usages` | `image_usages` | The Usages table. |
 | `driver` | `gd` (`IMAGE_CACHE_DRIVER`) | The Intervention driver: `gd`, `imagick`, `vips`, or a driver class name. |
 | `styles` | `[]` | The application's Image Style classes. |
+| `srcsets` | `[]` | Named sets of styles for [responsive images](usage/responsive-images.md). |
 | `disks.public.originals` | `public` | Where public originals are written. |
 | `disks.public.variants` | `public` | Where public Variants are written. |
 | `disks.private.originals` | `local` | Where private originals are written. |

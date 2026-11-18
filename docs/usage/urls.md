@@ -8,6 +8,8 @@ description: Get a Variant's URL, what it points at, and how to avoid N+1 querie
 <img src="{{ $image->url('thumb') }}" alt="">
 ```
 
+To render an `<img>` with its size and a srcset, use the [image component](responsive-images.md).
+
 `$image->url($style)` (or `ImageCache::url($image, $style)`) returns:
 
 - **The disk URL of the Variant** when it has been generated (`Storage::url()`), so your web server, S3 or CDN serves it

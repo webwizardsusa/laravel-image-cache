@@ -38,3 +38,8 @@ _Avoid_: Reference, attachment, link
 An Image that had Usages and has lost its last one. Orphaned Images are deleted after a grace period. An Image that
 never had a Usage is never Orphaned.
 _Avoid_: Unused image, dangling image
+
+**Srcset**:
+A list of an Image's Variants in several Image Styles, each with its width, from which the browser picks the one that
+fits where the Image is shown.
+_Avoid_: Responsive set, breakpoints

@@ -1,6 +1,6 @@
 * text=auto eol=lf
 
-# Left out of the archive Composer installs: only src/, config/, database/, routes/ and the docs ship.
+# Left out of the archive Composer installs: only src/, config/, database/, resources/, routes/ and the docs ship.
 /tests              export-ignore
 /.github            export-ignore
 /.gitattributes     export-ignore

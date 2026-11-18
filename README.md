@@ -51,6 +51,10 @@ $image = Image::store($request->file('photo'));
 $image->url('thumb');
 ```
 
+```blade
+<x-image-cache::image :image="$image" image-style="card" :srcset="['thumb', 'card', 'banner']" alt="A cat" />
+```
+
 ## Documentation
 
 Read the full documentation in the [`docs` folder](https://github.com/webwizardsusa/laravel-image-cache/tree/main/docs).

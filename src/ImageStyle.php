@@ -36,6 +36,25 @@ abstract class ImageStyle
     }
 
     /**
+     * The width in pixels this style's Variants have, when it's fixed (a crop or a scale to one width). It stands in
+     * for a Variant that hasn't been generated yet in a srcset, and in the `width` and `height` the image component
+     * sets. Null when it depends on the Image.
+     */
+    public function width(): ?int
+    {
+        return null;
+    }
+
+    /**
+     * The height in pixels this style's Variants have, when it's fixed. Null keeps the Image's aspect ratio at
+     * `width()`.
+     */
+    public function height(): ?int
+    {
+        return null;
+    }
+
+    /**
      * The encoding quality (0 to 100), or null for the encoder's default. Ignored by formats without one.
      */
     public function quality(): ?int
