@@ -1,0 +1,59 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        $images = config('image-cache.tables.images');
+
+        Schema::create($images, function (Blueprint $table): void {
+            $table->id();
+            $table->ulid()->unique();
+            $table->string('disk');
+            $table->string('path');
+            $table->string('visibility');
+            $table->string('mime_type');
+            $table->unsignedInteger('width');
+            $table->unsignedInteger('height');
+            $table->unsignedBigInteger('size');
+            $table->string('hash', 64)->index();
+            $table->timestamp('orphaned_at')->nullable()->index();
+            $table->timestamps();
+        });
+
+        Schema::create(config('image-cache.tables.variants'), function (Blueprint $table) use ($images): void {
+            $table->id();
+            $table->foreignId('image_id')->constrained($images)->cascadeOnDelete();
+            $table->string('style');
+            $table->string('disk');
+            $table->string('path');
+            $table->string('mime_type');
+            $table->unsignedInteger('width');
+            $table->unsignedInteger('height');
+            $table->unsignedBigInteger('size');
+            $table->timestamps();
+
+            $table->unique(['image_id', 'style']);
+            $table->index('style');
+        });
+
+        Schema::create(config('image-cache.tables.usages'), function (Blueprint $table) use ($images): void {
+            $table->foreignId('image_id')->constrained($images)->cascadeOnDelete();
+            $table->morphs('usable');
+            $table->timestamps();
+
+            $table->primary(['image_id', 'usable_type', 'usable_id']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists(config('image-cache.tables.usages'));
+        Schema::dropIfExists(config('image-cache.tables.variants'));
+        Schema::dropIfExists(config('image-cache.tables.images'));
+    }
+};
