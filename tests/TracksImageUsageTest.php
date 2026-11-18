@@ -87,3 +87,12 @@ it('keeps its Usages when it is soft deleted', function (): void {
     expect($image->fresh()->orphaned_at)->toBeNull()
         ->and($image->usages()->count())->toBe(1);
 });
+
+it('takes Images by ULID, and ignores ULIDs that match no Image', function (): void {
+    $image = storeUsageImage();
+    $article = Article::create(['title' => 'Hello']);
+
+    $article->syncImageUsages([strtoupper($image->ulid), '01jzzzzzzzzzzzzzzzzzzzzzzz']);
+
+    expect($article->usedImages()->pluck('id')->all())->toBe([$image->id]);
+});

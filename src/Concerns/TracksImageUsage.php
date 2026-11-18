@@ -18,7 +18,7 @@ use Webwizardsusa\ImageCache\Models\Image;
 trait TracksImageUsage
 {
     /**
-     * The Images the record uses right now, as models or ids. imagesFromAttributes() covers foreign key columns.
+     * The Images the record uses right now, as models, ids or ULIDs. imagesFromAttributes() covers foreign key columns.
      *
      * @return iterable<Image|int|string|null>
      */
@@ -55,13 +55,21 @@ trait TracksImageUsage
     public function syncImageUsages(?iterable $images = null): void
     {
         $ids = [];
+        $ulids = [];
 
         foreach ($images ?? $this->referencedImages() as $image) {
-            $id = $image instanceof Image ? $image->getKey() : $image;
-
-            if ($id !== null && $id !== '') {
-                $ids[] = (int) $id;
+            if ($image instanceof Image) {
+                $ids[] = (int) $image->getKey();
+            } elseif (is_int($image) || (is_string($image) && ctype_digit($image))) {
+                $ids[] = (int) $image;
+            } elseif (is_string($image) && $image !== '') {
+                $ulids[] = strtolower($image);
             }
+        }
+
+        if ($ulids !== []) {
+            // ULIDs that match no Image are ignored, like content pointing at an Image that has since been deleted.
+            array_push($ids, ...ImageCache::newImageQuery()->whereIn('ulid', array_unique($ulids))->pluck('id')->map(fn (mixed $id): int => (int) $id));
         }
 
         $ids = array_values(array_unique($ids));

@@ -21,9 +21,9 @@ class Article extends Model
 }
 ```
 
-`referencedImages()` returns the Images the record uses right now, as models or ids (nulls are skipped).
-`imagesFromAttributes()` reads foreign key columns. For Images referenced in other ways, such as ids in a JSON column or
-in HTML, return them however you find them:
+`referencedImages()` returns the Images the record uses right now, as models, ids or ULIDs. Nulls, and ULIDs that match
+no Image, are skipped. `imagesFromAttributes()` reads foreign key columns. For Images referenced in other ways, such as
+ids in a JSON column or ULIDs in HTML, return them however you find them:
 
 ```php
 public function referencedImages(): iterable
