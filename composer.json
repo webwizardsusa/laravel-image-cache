@@ -1,0 +1,78 @@
+{
+    "name": "webwizardsusa/laravel-image-cache",
+    "description": "Drupal-style image styles for Laravel: Variants generated on demand, when an Image is stored or on a queue, for public and private Images, with optional usage tracking.",
+    "keywords": [
+        "laravel",
+        "image",
+        "image-cache",
+        "image-styles",
+        "thumbnails",
+        "intervention",
+        "webwizardsusa"
+    ],
+    "homepage": "https://github.com/webwizardsusa/laravel-image-cache",
+    "support": {
+        "issues": "https://github.com/webwizardsusa/laravel-image-cache/issues",
+        "source": "https://github.com/webwizardsusa/laravel-image-cache"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jamie Holly",
+            "email": "jamie@webwizardsusa.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "illuminate/console": "^12.0 || ^13.0",
+        "illuminate/contracts": "^12.0 || ^13.0",
+        "illuminate/database": "^12.0 || ^13.0",
+        "illuminate/filesystem": "^12.0 || ^13.0",
+        "illuminate/http": "^12.0 || ^13.0",
+        "illuminate/queue": "^12.0 || ^13.0",
+        "illuminate/routing": "^12.0 || ^13.0",
+        "illuminate/support": "^12.0 || ^13.0",
+        "intervention/image": "^4.2",
+        "spatie/laravel-package-tools": "^1.92"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^11.0",
+        "pestphp/pest": "^5.2",
+        "pestphp/pest-plugin-laravel": "^5.0"
+    },
+    "suggest": {
+        "ext-imagick": "For the imagick driver.",
+        "intervention/image-driver-vips": "For the vips driver."
+    },
+    "autoload": {
+        "psr-4": {
+            "Webwizardsusa\\ImageCache\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webwizardsusa\\ImageCache\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "pest"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webwizardsusa\\ImageCache\\ImageCacheServiceProvider"
+            ],
+            "aliases": {
+                "ImageCache": "Webwizardsusa\\ImageCache\\Facades\\ImageCache"
+            }
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
