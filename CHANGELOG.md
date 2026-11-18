@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/webwizardsusa/laravel-image-cache/compare/v0.2.0...v0.3.0) (2026-11-18)
+
+
+### Features
+
+* add srcset() and named srcsets for responsive images, and an image Blade component ([b2f1c8a](https://github.com/webwizardsusa/laravel-image-cache/commit/b2f1c8a743ece8e8e06c2edb988cbc8b8a784bcc))
+
 ## [0.2.0](https://github.com/webwizardsusa/laravel-image-cache/compare/v0.1.0...v0.2.0) (2026-11-18)
 
 
