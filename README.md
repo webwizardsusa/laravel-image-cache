@@ -58,3 +58,7 @@ $image->url('thumb');
 ## Documentation
 
 Read the full documentation in the [`docs` folder](https://github.com/webwizardsusa/laravel-image-cache/tree/main/docs).
+
+## About Us
+
+This package is developed and maintained by [WebWizardsUSA](https://webwizardsusa.com/), a top rated web development agency on Upwork.
